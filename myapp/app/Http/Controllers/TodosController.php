@@ -14,7 +14,11 @@ class TodosController extends Controller
      */
     public function index()
     {
-        $todos = Todo::orderBy('created_at','desc')->paginate(8);
+        //get the authentication user.
+    $user = Auth::user();
+    //get all the todos that belong to the user with pagination.
+    $todos = $user->todos()->orderBy('created_at','desc')->paginate(8);
+    //return a view with all the todos.
     return view('todos.index',[
         'todos' => $todos,
     ]);
@@ -38,10 +42,11 @@ class TodosController extends Controller
      */
     public function store(Request $request)
     {
-        //validation rules
-    $rules = [
-        'title' => 'required|string|unique:todos,title|min:2|max:191',
-        'body'  => 'required|string|min:5|max:1000',
+        $todo = new Todo;
+$todo->title = $request->title;
+$todo->body = $request->body;
+$todo->user_id = Auth::id(); //add the authenticated user id to "user_id" column.
+$todo->save();
     ];
     //custom validation error messages
     $messages = [
@@ -136,4 +141,8 @@ class TodosController extends Controller
         ->route('todos.index')
         ->with('status','Deleted the selected Todo!');
     }
+
+public function __construct(){
+    $this->middleware('auth');
+}
 }

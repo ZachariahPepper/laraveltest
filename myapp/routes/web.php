@@ -22,3 +22,5 @@ Route::get('/todos/{id}','TodosController@show')->name('todos.show');
 Route::get('/todos/{id}/edit','TodosController@edit')->name('todos.edit');
 Route::put('/todos/{id}','TodosController@update')->name('todos.update'); // making a put request
 Route::delete('/todos/{id}','TodosController@destroy')->name('todos.destroy'); // making a delete request
+Route::get('/profile','ProfileController@index')->name('profile.index');
+Route::put('/profile','ProfileController@update')->name('profile.update');

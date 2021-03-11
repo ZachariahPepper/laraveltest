@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Todo extends Model
 {
-    use HasFactory;
+    public function todos(){
+    return $this->hasMany('App\Todo','user_id');
+}
+
+public function user(){
+  return $this->belongsTo('App\User');
+}
 }
